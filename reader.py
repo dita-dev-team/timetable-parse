@@ -23,7 +23,7 @@ def parse_timetable():
         sheet_name = sheet.name
         days_row_index = get_days(sheet)
         if "Athi" in sheet_name:
-            # client.create_collection("athitt")
+            client.create_collection("athitt")
             print("\n" + sheet_name)
             if sheet.ncols < 14:
                 for row in [x for x in range(3, sheet.nrows)]:
@@ -31,9 +31,11 @@ def parse_timetable():
                         if sheet.cell(row, col).value:
                             for k in days_row_index.keys():
                                 if col in days_row_index[k]:
-                                    body = dict(location=sheet.cell(row, 0).value, time=sheet.cell(2, col).value,
-                                                day=sheet.cell(1, col).value)
-                                    data = dict(title=sheet.cell(row, col).value, body=body)
+                                    time = sheet.cell(2, col).value.split('-')
+                                    body = dict(location=sheet.cell(row, 0).value, start_time=time[0],
+                                                end_tiem=time[1], day=sheet.cell(1, col).value)
+                                    title = sheet.cell(row, col).value
+                                    data = dict(title="".join(title.split()), body=body)
                                     client.create_document("athitt", data)
                                     # print(sheet.cell(1, col).value+" : "+sheet.cell(row, col).value+" : "+sheet.cell(row, 0).value+" : "+sheet.cell(2, col).value)
             else:
@@ -42,33 +44,41 @@ def parse_timetable():
                         if sheet.cell(row, col).value:
                             for k in days_row_index.keys():
                                 if col in days_row_index[k]:
-                                    body = dict(location=sheet.cell(row, 0).value, time=sheet.cell(2, col).value,
-                                                day=sheet.cell(1, col).value)
-                                    data = dict(title=sheet.cell(row, col).value, body=body)
+                                    time = sheet.cell(2, col).value.split('-')
+                                    body = dict(location=sheet.cell(row, 0).value, start_time=time[0],
+                                                end_tiem=time[1], day=sheet.cell(1, col).value)
+                                    title = sheet.cell(row, col).value
+                                    data = dict(title="".join(title.split()), body=body)
                                     client.create_document("athitt", data)
                                     # print(sheet.cell(1, col).value+" : "+sheet.cell(row, col).value + " : " + sheet.cell(row, 0).value + " : " + sheet.cell(2,col).value)
         elif "Day" in sheet_name:
+            client.create_collection("nairobidaytt")
             print("\n" + sheet_name)
             for row in [x for x in range(3, sheet.nrows)]:
                 for col in [x for x in range(1, sheet.ncols) if (x != 5) and (x != 9) and (x != 11)]:
                     if sheet.cell(row, col).value:
                         for k in days_row_index.keys():
                             if col in days_row_index[k]:
-                                body = dict(location=sheet.cell(row, 0).value, time=sheet.cell(2, col).value,
-                                            day=sheet.cell(1, col).value)
-                                data = dict(title=sheet.cell(row, col).value, body=body)
+                                time = sheet.cell(2, col).value.split('-')
+                                body = dict(location=sheet.cell(row, 0).value, start_time=time[0],
+                                            end_tiem=time[1], day=sheet.cell(1, col).value)
+                                title = sheet.cell(row, col).value
+                                data = dict(title="".join(title.split()), body=body)
                                 client.create_document("nairobidaytt", data)
                                 # print(sheet.cell(1, col).value+" : "+sheet.cell(row, col).value+" : "+sheet.cell(row, 0).value+" : "+sheet.cell(2, col).value)
         elif "Evening" in sheet_name:
+            client.create_collection("nairobieveningtt")
             print("\n" + sheet_name)
             for row in [x for x in range(3, sheet.nrows)]:
                 for col in [x for x in range(1, sheet.ncols) if (x != 5)]:
                     if sheet.cell(row, col).value:
                         for k in days_row_index.keys():
                             if col in days_row_index[k]:
-                                body = dict(location=sheet.cell(row, 0).value, time=sheet.cell(2, col).value,
-                                            day=sheet.cell(1, col).value)
-                                data = dict(title=sheet.cell(row, col).value, body=body)
+                                time = sheet.cell(2, col).value.split('-')
+                                body = dict(location=sheet.cell(row, 0).value, start_time=time[0],
+                                            end_tiem=time[1], day=sheet.cell(1, col).value)
+                                title = sheet.cell(row, col).value
+                                data = dict(title="".join(title.split()), body=body)
                                 client.create_document("nairobieveningtt", data)
                                 # print(sheet.cell(1, col).value+" : "+sheet.cell(row, col).value+" : "+sheet.cell(row, 0).value+" : "+sheet.cell(2, col).value)
 
